@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  zipkin:
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+    environment:
+      - STORAGE_TYPE=mem
+      - MANAGEMENT_TRACING_SAMPLING_PROBABILITY=1.0
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://localhost:9411/api/v2/spans
+      - SERVER_PORT=9411
+    restart: always
+    networks:
+      - tracing-network
+
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: zipkin-test
+    restart: always
+    networks:
+      - tracing-network
+    ports:
+      - "9696:8080"
+    volumes:
+      - ./application.properties:/app/config/application.properties
+    environment:
+      - SPRING_CONFIG_LOCATION=/app/config/application.properties
+
+networks:
+  tracing-network:
+    
