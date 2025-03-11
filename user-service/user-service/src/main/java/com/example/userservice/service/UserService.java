@@ -137,5 +137,11 @@ public class UserService implements UserServiceImpl {
 
     }
 
+    @Override
+    public List<Integer> getAllUserIds() {
+       List<Integer> ids = this.userRepository.getAllByUserIds();
+        return ids;
+    }
+
 }
 

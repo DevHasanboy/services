@@ -10,16 +10,19 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
 
     Optional<User> findByIdAndDeletedAtIsNull(Integer id);
 
-   @Query(nativeQuery = true,
-   value = "select * from user7070")
+    @Query(nativeQuery = true,
+            value = "select * from user7070")
     List<User> findAllByUserAnddeletedAtIsNull();
 
-   @Query(nativeQuery = true,
-   value = "select * from user7070 where id=:userId")
-   Optional<User> findByUserIdwithCard(Integer userId);
+    @Query(nativeQuery = true,
+            value = "select * from user7070 where id=:userId")
+    Optional<User> findByUserIdwithCard(Integer userId);
+
+    @Query(value = "select id from user7070", nativeQuery = true)
+    List<Integer> getAllByUserIds();
 }
